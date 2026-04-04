@@ -1,5 +1,5 @@
 import { useState, useEffect } from 'react';
-
+import './app.css'
 
 
 function App() {
@@ -38,6 +38,17 @@ function App() {
     setTasks(tasksUpdated);
   }
 
+  function toggleTask(id){
+    const updated = tasks.map(task => {
+      if (task.id === id){
+        task.done = !task.done;
+      }
+      return task
+    })
+
+    setTasks(updated)
+  }
+
   return (
     <div>
       <form onSubmit={addTask}>
@@ -46,8 +57,14 @@ function App() {
       </form>
       <ul>
         {tasks.map(task => (
-          <li key = {task.id}>{task.text}
-          <button onClick={() => deleteTask(task.id)}>Удалить</button></li>
+          <li key = {task.id}>
+            <input 
+            type="checkbox" 
+            onChange={() => toggleTask(task.id)}
+            checked={task.done}/>
+            <span>{task.text}</span>
+            <button onClick={() => deleteTask(task.id)}>Удалить</button>
+          </li>
           )
         )}
       </ul>
