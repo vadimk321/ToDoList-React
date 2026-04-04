@@ -28,9 +28,14 @@ function App() {
     }
 
     setTasks([...tasks, newTask]);
-    
+
     //Чистка Submit
     e.target.reset();
+  }
+
+  function deleteTask(id){
+    const tasksUpdated = tasks.filter(task => task.id !== id);
+    setTasks(tasksUpdated);
   }
 
   return (
@@ -41,7 +46,8 @@ function App() {
       </form>
       <ul>
         {tasks.map(task => (
-          <li key = {task.id}>{task.text}</li>
+          <li key = {task.id}>{task.text}
+          <button onClick={() => deleteTask(task.id)}>Удалить</button></li>
           )
         )}
       </ul>
