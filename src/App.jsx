@@ -6,6 +6,8 @@ function App() {
 
 
   const [tasks, setTasks] = useState([]);
+  const [editingId, setEditingId] = useState('');
+  const [editingText, setEditingText] = useState('')
 
   // Слежка за tasks
   useEffect(() => {
@@ -47,6 +49,28 @@ function App() {
     })
 
     setTasks(updated)
+    setEditingId(null)
+    console.log(editingId)
+  }
+
+  function editTask(id){
+    const task = tasks.find(item => item.id === id);
+    setEditingId(id);
+    setEditingText(task.text);
+  }
+
+  function saveEditTask(id){
+
+    const updated = tasks.map(task => {
+      if (task.id === id){
+        task.text = editingText;
+      }
+
+      return task
+    });
+
+    setTasks(updated)
+    setEditingId('')
   }
 
   return (
@@ -58,11 +82,25 @@ function App() {
       <ul>
         {tasks.map(task => (
           <li key = {task.id}>
+
             <input 
             type="checkbox" 
             onChange={() => toggleTask(task.id)}
             checked={task.done}/>
-            <span>{task.text}</span>
+
+            {task.id === editingId ? 
+              (<input 
+                type="text" 
+                value={editingText}
+                onChange={(e) => setEditingText(e.target.value)}
+                onBlur={() => saveEditTask(task.id)}
+                onKeyDown={(e) => {
+                  if (e.key === 'Enter') {
+                    saveEditTask(task.id)
+                  }
+                }}
+              />) : (<span onClick={() => editTask(task.id)}> {task.text}</span>)}
+
             <button onClick={() => deleteTask(task.id)}>Удалить</button>
           </li>
           )
