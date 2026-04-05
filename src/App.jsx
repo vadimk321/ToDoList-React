@@ -43,7 +43,7 @@ function App() {
   function toggleTask(id){
     const updated = tasks.map(task => {
       if (task.id === id){
-        task.done = !task.done;
+        return {...task, done: !task.done}
       }
       return task
     })
@@ -63,7 +63,7 @@ function App() {
 
     const updated = tasks.map(task => {
       if (task.id === id){
-        task.text = editingText;
+        return {...task, text: editingText};
       }
 
       return task
@@ -71,6 +71,11 @@ function App() {
 
     setTasks(updated)
     setEditingId('')
+  }
+
+  function cancelSaveTask(){
+    setEditingId('');
+    setEditingText('');
   }
 
   return (
@@ -95,11 +100,11 @@ function App() {
                 onChange={(e) => setEditingText(e.target.value)}
                 onBlur={() => saveEditTask(task.id)}
                 onKeyDown={(e) => {
-                  if (e.key === 'Enter') {
-                    saveEditTask(task.id)
-                  }
+                  if (e.key === 'Enter') {saveEditTask(task.id)}
+                  if (e.key === 'Escape') {cancelSaveTask(task.id);}
                 }}
-              />) : (<span onClick={() => editTask(task.id)}> {task.text}</span>)}
+              />) 
+              : (<span onClick={() => editTask(task.id)}> {task.text}</span>)}
 
             <button onClick={() => deleteTask(task.id)}>Удалить</button>
           </li>
