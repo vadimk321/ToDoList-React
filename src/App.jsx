@@ -1,6 +1,6 @@
 import { useState, useEffect } from 'react';
 import './app.css'
-
+import TaskItem from './TaskItem.jsx'
 
 function App() {
 
@@ -60,7 +60,6 @@ function App() {
   }
 
   function saveEditTask(id){
-
     const updated = tasks.map(task => {
       if (task.id === id){
         return {...task, text: editingText};
@@ -86,28 +85,19 @@ function App() {
       </form>
       <ul>
         {tasks.map(task => (
-          <li key = {task.id}>
-
-            <input 
-            type="checkbox" 
-            onChange={() => toggleTask(task.id)}
-            checked={task.done}/>
-
-            {task.id === editingId ? 
-              (<input 
-                type="text" 
-                value={editingText}
-                onChange={(e) => setEditingText(e.target.value)}
-                onBlur={() => saveEditTask(task.id)}
-                onKeyDown={(e) => {
-                  if (e.key === 'Enter') {saveEditTask(task.id)}
-                  if (e.key === 'Escape') {cancelSaveTask(task.id);}
-                }}
-              />) 
-              : (<span onClick={() => editTask(task.id)}> {task.text}</span>)}
-
-            <button onClick={() => deleteTask(task.id)}>Удалить</button>
-          </li>
+          <TaskItem 
+            key={task.id} 
+            task={task}
+            toggleTask={toggleTask}
+            saveEditTask={saveEditTask}
+            editTask={editTask}
+            deleteTask={deleteTask}
+            setEditingId={setEditingId}
+            editingId={editingId}
+            setEditingText={setEditingText}
+            editingText={editingText}
+            cancelSaveTask={cancelSaveTask}
+            />
           )
         )}
       </ul>
