@@ -4,15 +4,17 @@ import TaskItem from './TaskItem.jsx'
 
 function App() {
 
-
-  const [tasks, setTasks] = useState([]);
+  const [tasks, setTasks] = useState(() => {
+    const saved = JSON.parse(localStorage.getItem('tasks'));
+    return saved ? saved : [];
+  });
   const [editingId, setEditingId] = useState('');
-  const [editingText, setEditingText] = useState('')
+  const [editingText, setEditingText] = useState('');
 
-  // Слежка за tasks
+
   useEffect(() => {
-    console.log(tasks);
-  }, [tasks]);
+    localStorage.setItem('tasks', JSON.stringify(tasks));
+  }, [tasks])
   
 
   function addTask(e){
