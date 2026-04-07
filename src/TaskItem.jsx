@@ -3,35 +3,35 @@ function TaskItem(props){
   const {
         task,
         toggleTask,
-        saveEditTask,
-        editTask,
         deleteTask,
-        editingId,
+        isEditing,
         editingText,
         setEditingText,
-        cancelSaveTask
+        startEdit,
+        saveEdit,
+        cancelEdit
         } = props;
   
   return(
-    <li key={task.id}>
+    <li>
     <input
       type="checkbox"
       checked={task.done}
       onChange={() => toggleTask(task.id)}
     />
 
-    {editingId === task.id ? (
+    {isEditing ? (
       <input
         value={editingText}
         autoFocus
         onChange={(e) => setEditingText(e.target.value)}
-        onBlur={() => saveEditTask(task.id)}
+        onBlur={() => saveEdit()}
         onKeyDown={(e) => {
-          if (e.key === 'Enter') {saveEditTask(task.id)}
-          if (e.key === 'Escape') {cancelSaveTask()}
+          if (e.key === 'Enter') {saveEdit()}
+          if (e.key === 'Escape') {cancelEdit()}
         }}
       />
-      ) : (<span onClick={() => editTask(task.id)}>{task.text}</span>)
+      ) : (<span onClick={startEdit}>{task.text}</span>)
       }
       <button onClick={() => deleteTask(task.id)}>Удалить</button>
     </li>
