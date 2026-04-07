@@ -17,7 +17,7 @@ function TaskItem(props){
     <input
       type="checkbox"
       checked={task.done}
-      onChange={() => toggleTask(task.id)}
+      onChange={toggleTask}
     />
 
     {isEditing ? (
@@ -29,11 +29,12 @@ function TaskItem(props){
         onKeyDown={(e) => {
           if (e.key === 'Enter') {saveEdit()}
           if (e.key === 'Escape') {cancelEdit()}
+          if (e.key === 'j') {console.log(toggleTask, ' ------', saveEdit)}
         }}
       />
       ) : (<span onClick={startEdit}>{task.text}</span>)
       }
-      <button onClick={() => deleteTask(task.id)}>Удалить</button>
+      <button onClick={deleteTask}>Удалить</button>
     </li>
   )
 }
