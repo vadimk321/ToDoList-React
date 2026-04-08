@@ -2,8 +2,8 @@ import TaskItem from './TaskItem.jsx'
 
 
 function TaskList(props){
-
- const {tasks,
+  
+  const {tasks,
         toggleTask,
         deleteTask,
         editingText,
@@ -13,6 +13,7 @@ function TaskList(props){
         cancelEdit,
         editingId
         } = props;
+  
 
   return (
     <ul>
@@ -21,12 +22,10 @@ function TaskList(props){
             key={task.id}
             task={task}
             isEditing={editingId === task.id}
-            editingText={editingText}
-            setEditingText={setEditingText}
-            toggleTask={() => toggleTask(task.id)}
-            deleteTask={() => deleteTask(task.id)}
-            startEdit={() => startEdit(task.id)}
-            saveEdit={() => saveEdit(task.id)}
+            toggleTask={toggleTask}
+            deleteTask={deleteTask}
+            startEdit={startEdit}
+            saveEdit={saveEdit}
             cancelEdit={cancelEdit}
             />
           )

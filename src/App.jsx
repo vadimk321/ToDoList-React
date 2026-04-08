@@ -61,10 +61,10 @@ function App() {
     setEditingText(task.text);
   }
 
-  function saveEdit(id){
+  function saveEdit(id, newText){
     const updated = tasks.map(task => {
       if (task.id === id){
-        return {...task, text: editingText};
+        return {...task, text: newText};
       }
 
       return task

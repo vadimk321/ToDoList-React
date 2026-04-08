@@ -1,42 +1,64 @@
-function TaskItem(props){
+import React, { useEffect, useState } from 'react';
 
-  const {
-        task,
-        toggleTask,
-        deleteTask,
-        isEditing,
-        editingText,
-        setEditingText,
-        startEdit,
-        saveEdit,
-        cancelEdit
-        } = props;
-  
-  return(
-    <li>
-    <input
-      type="checkbox"
-      checked={task.done}
-      onChange={toggleTask}
-    />
+const TaskItem = React.memo(
+  function TaskItem(props){
 
-    {isEditing ? (
-      <input
-        value={editingText}
-        autoFocus
-        onChange={(e) => setEditingText(e.target.value)}
-        onBlur={() => saveEdit()}
-        onKeyDown={(e) => {
-          if (e.key === 'Enter') {saveEdit()}
-          if (e.key === 'Escape') {cancelEdit()}
-          if (e.key === 'j') {console.log(toggleTask, ' ------', saveEdit)}
-        }}
-      />
-      ) : (<span onClick={startEdit}>{task.text}</span>)
+    const {
+          task,
+          toggleTask,
+          deleteTask,
+          isEditing,
+          startEdit,
+          saveEdit,
+          cancelEdit
+          } = props;
+
+    const [localText, setLocalText] = useState(task.text);
+    
+    
+    useEffect(() => {
+      if  (isEditing) {
+        setLocalText(task.text);
       }
-      <button onClick={deleteTask}>Удалить</button>
-    </li>
-  )
-}
+    }, [isEditing, task.text]);
+
+    const handleSaveEdit = () => {
+      saveEdit(task.id, localText);
+    };
+
+    const handleToggle = () => toggleTask(task.id);
+    const handleDelete = () => deleteTask(task.id);
+    const handleStartEdit = () => startEdit(task.id);
+
+    console.log('render', task.id);
+
+    return(
+      <li>
+      <input
+        type="checkbox"
+        checked={task.done}
+        onChange={handleToggle}
+      />
+
+      {isEditing ? (
+        <input
+          value={localText}
+          autoFocus
+          onChange={(e) => setLocalText(e.target.value)}
+          onBlur={handleSaveEdit}
+          onKeyDown={(e) => {
+            if (e.key === 'Enter') handleSaveEdit();
+            if (e.key === 'Escape') {cancelEdit()}
+          }}
+        />
+        ) : (<span onClick={handleStartEdit}>{task.text}</span>)
+        }
+        <button onClick={handleDelete}>Удалить</button>
+      </li>
+    )
+  }
+)
+
+
 
 export default TaskItem
