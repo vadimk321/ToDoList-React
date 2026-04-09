@@ -6,8 +6,6 @@ function TaskList(props){
   const {tasks,
         toggleTask,
         deleteTask,
-        editingText,
-        setEditingText,
         startEdit,
         saveEdit,
         cancelEdit,

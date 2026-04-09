@@ -22,9 +22,7 @@ const TaskItem = React.memo(
       }
     }, [isEditing, task.text]);
 
-    const handleSaveEdit = () => {
-      saveEdit(task.id, localText);
-    };
+    const handleSaveEdit = () => {saveEdit(task.id, localText);};
 
     const handleToggle = () => toggleTask(task.id);
     const handleDelete = () => deleteTask(task.id);

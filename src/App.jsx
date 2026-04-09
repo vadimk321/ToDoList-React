@@ -10,7 +10,7 @@ function App() {
     return saved ? JSON.parse(saved) : [];
   });
   const [editingId, setEditingId] = useState('');
-  const [editingText, setEditingText] = useState('');
+
 
 
   useEffect(() => {
@@ -56,9 +56,7 @@ function App() {
   }
 
   function startEdit(id){
-    const task = tasks.find(item => item.id === id);
     setEditingId(id);
-    setEditingText(task.text);
   }
 
   function saveEdit(id, newText){
@@ -76,8 +74,13 @@ function App() {
 
   function cancelEdit(){
     setEditingId('');
-    setEditingText('');
   }
+
+  function clearList(){
+    setTasks([]);
+  }
+  
+
 
   return (
     <div>
@@ -89,13 +92,14 @@ function App() {
           tasks={tasks}
           toggleTask={toggleTask}
           deleteTask={deleteTask}
-          editingText={editingText}
-          setEditingText={setEditingText}
           startEdit={startEdit}
           saveEdit={saveEdit}
           cancelEdit={cancelEdit}
           editingId={editingId}
         />
+        <hr />
+        <button onClick={clearList}>Сбросить все задачи</button>
+        <hr />
     </div>
   );
 }
