@@ -10,7 +10,7 @@ const TaskItem = React.memo(
           isEditing,
           startEdit,
           saveEdit,
-          cancelEdit
+          cancelEdit,
           } = props;
 
     const [localText, setLocalText] = useState(task.text);
@@ -22,7 +22,7 @@ const TaskItem = React.memo(
       }
     }, [isEditing, task.text]);
 
-    const handleSaveEdit = () => {saveEdit(task.id, localText);};
+    const handleSaveEdit = () => saveEdit(task.id, localText);
 
     const handleToggle = () => toggleTask(task.id);
     const handleDelete = () => deleteTask(task.id);
@@ -32,26 +32,29 @@ const TaskItem = React.memo(
 
     return(
       <li>
-      <input
-        type="checkbox"
-        checked={task.done}
-        onChange={handleToggle}
-      />
-
-      {isEditing ? (
         <input
-          value={localText}
-          autoFocus
-          onChange={(e) => setLocalText(e.target.value)}
-          onBlur={handleSaveEdit}
-          onKeyDown={(e) => {
-            if (e.key === 'Enter') handleSaveEdit();
-            if (e.key === 'Escape') {cancelEdit()}
-          }}
+          type="checkbox"
+          checked={task.done}
+          onChange={handleToggle}
         />
-        ) : (<span onClick={handleStartEdit}>{task.text}</span>)
-        }
-        <button onClick={handleDelete}>Удалить</button>
+
+        {isEditing ? (
+          <input
+            value={localText}
+            autoFocus
+            onChange={(e) => setLocalText(e.target.value)}
+            onBlur={handleSaveEdit}
+            onKeyDown={(e) => {
+              if (e.key === 'Enter') handleSaveEdit();
+              if (e.key === 'Escape') {cancelEdit()}
+            }}
+          />
+          ) : (<span 
+            onClick={handleStartEdit}
+            className={task.done ? 'complete' : 'notDone'}
+            >{task.text}</span>)
+          }
+          <button onClick={handleDelete}>Удалить</button>
       </li>
     )
   }

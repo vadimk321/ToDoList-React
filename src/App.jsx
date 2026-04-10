@@ -87,16 +87,16 @@ function App() {
       <form onSubmit={addTask}>
         <input name='text'/>
         <button>Добавить</button>
-      </form>
-        <TaskList 
-          tasks={tasks}
-          toggleTask={toggleTask}
-          deleteTask={deleteTask}
-          startEdit={startEdit}
-          saveEdit={saveEdit}
-          cancelEdit={cancelEdit}
-          editingId={editingId}
-        />
+      </form>  
+          <TaskList 
+            tasks={tasks}
+            toggleTask={toggleTask}
+            deleteTask={deleteTask}
+            startEdit={startEdit}
+            saveEdit={saveEdit}
+            cancelEdit={cancelEdit}
+            editingId={editingId}
+          />
         <hr />
         <button onClick={clearList}>Сбросить все задачи</button>
         <hr />
