@@ -1,4 +1,4 @@
-import { useState, useEffect } from 'react';
+import { useState, useEffect, useCallback } from 'react';
 import './app.css'
 
 import TaskList from './TaskList.jsx'
@@ -20,7 +20,7 @@ function App() {
 
   function addTask(e){
     e.preventDefault();
-    
+
     const taskText = e.target.elements.text.value;
     if (!taskText){
       return
@@ -34,52 +34,40 @@ function App() {
 
     setTasks([...tasks, newTask]);
 
-    //Чистка Submit
     e.target.reset();
   }
 
-  function deleteTask(id){
-    const tasksUpdated = tasks.filter(task => task.id !== id);
-    setTasks(tasksUpdated);
-  }
+  const deleteTask = useCallback((id) => {
+    setTasks(prev => prev.filter(task => task.id !== id))
+  }, [])
 
-  function toggleTask(id){
-    const updated = tasks.map(task => {
-      if (task.id === id){
-        return {...task, done: !task.done}
-      }
-      return task
+  const toggleTask = useCallback((id) => {
+    setTasks(prev => 
+      prev.map(task => 
+        task.id === id 
+        ? { ...task, done: !task.done} 
+        : task))
+  }, [])
+
+  const startEdit = useCallback(id => {
+    setEditingId(id);
+  }, [])
+
+  const saveEdit = useCallback((id, newText) => {
+    setTasks(prev => {
+      return prev.map(task => task.id === id ? {...task, text: newText} : task)
     })
 
-    setTasks(updated)
-    setEditingId('')
-  }
-
-  function startEdit(id){
-    setEditingId(id);
-  }
-
-  function saveEdit(id, newText){
-    const updated = tasks.map(task => {
-      if (task.id === id){
-        return {...task, text: newText};
-      }
-
-      return task
-    });
-
-    setTasks(updated)
-    setEditingId('')
-  }
-
-  function cancelEdit(){
     setEditingId('');
-  }
+  }, [])
 
-  function clearList(){
+  const cancelEdit = useCallback(() => {
+    setEditingId('');
+  }, [])
+
+  const clearList = useCallback(() => {
     setTasks([]);
-  }
-  
+  }, [])
 
 
   return (
