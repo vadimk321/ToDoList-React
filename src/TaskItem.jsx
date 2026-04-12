@@ -46,12 +46,12 @@ const TaskItem = React.memo(
             onBlur={handleSaveEdit}
             onKeyDown={(e) => {
               if (e.key === 'Enter') handleSaveEdit();
-              if (e.key === 'Escape') {cancelEdit()}
+              if (e.key === 'Escape') cancelEdit();
             }}
           />
           ) : (<span 
             onClick={handleStartEdit}
-            className={task.done ? 'complete' : 'notDone'}
+            className={task.done ? 'complete' : null}
             >{task.text}</span>)
           }
           <button onClick={handleDelete}>Удалить</button>

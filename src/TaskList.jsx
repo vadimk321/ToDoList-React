@@ -1,3 +1,4 @@
+import { useMemo } from 'react';
 import TaskItem from './TaskItem.jsx'
 
 
@@ -13,8 +14,10 @@ function TaskList(props){
         editingId
         } = props;
   
-  const activeTasks = tasks.filter(task => !task.done)
-  const doneTasks = tasks.filter(task => task.done)
+
+  const activeTasks = useMemo(() => tasks.filter(task => !task.done), [tasks])
+  const doneTasks = useMemo(() => tasks.filter(task => task.done), [tasks]);
+
 
   return (
     <ul>

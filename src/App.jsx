@@ -32,7 +32,7 @@ function App() {
       done: false
     }
 
-    setTasks([...tasks, newTask]);
+    setTasks(prev => [...prev, newTask]);
 
     e.target.reset();
   }
