@@ -8,6 +8,10 @@
   box-shadow: var(--shadow);
 }
 
+.prefix {
+  flex: 0;
+}
+
 /* заголовок */
 h1 {
   text-align: center;

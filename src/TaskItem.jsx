@@ -15,6 +15,9 @@ const TaskItem = React.memo(
 
     const [localText, setLocalText] = useState(task.text);
     
+    useEffect(() => {
+
+    }, [])
     
     useEffect(() => {
       if  (isEditing) {
@@ -37,7 +40,9 @@ const TaskItem = React.memo(
           checked={task.done}
           onChange={handleToggle}
         />
-
+        {task.prefixes.map(prefix => (
+          <span key={prefix} className="prefix">[{prefix}]</span>
+        ))}
         {isEditing ? (
           <input
             value={localText}

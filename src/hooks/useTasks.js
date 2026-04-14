@@ -31,21 +31,29 @@ function tasksReducer(state, action){
         return state.filter(task => !task.done);
 
       case 'ADD_PREFIX':
-        return state.map(task => ({...task, text: task.text.includes(`[${action.payload}]`)
-          ? task.text
-          : `[${action.payload}] ${task.text}`}));
+        return state.map(task => {
+          // Максимум 2 префикса и проверка на наличие дублей
+          if(task.prefixes.length >= 2) return task;
+          if (task.prefixes.includes(action.payload)) return task;
+
+          const updated = [...task.prefixes, action.payload];
+          return {...task, prefixes: updated}
+        })
 
       case 'REMOVE_PREFIX':
-        const arr = state.map(task => task.text.split(']'));
-        const subArr = arr.map(prefix => {
-          return prefix.map(string => {
-            return string.split('')
-          }) 
+        const updated = state.map(task => {
+          const newPrefixes = task.prefixes.filter(prefix => prefix !== action.payload);
+
+          if (newPrefixes.length === task.prefixes.length) {
+            return task;
+          }
+
+          return {...task, prefixes: newPrefixes};
         })
-        console.log('arr = ')
-        console.log(arr)
-        console.log('subArr = ')
-        console.log(subArr)
+
+        return updated
+        
+        
       default:
         return state
     }
@@ -73,7 +81,8 @@ export function useTasks() {
       payload: {
         id: new Date().toISOString(),
         text: text,
-        done: false
+        done: false,
+        prefixes: [],
       }
     })
   }
