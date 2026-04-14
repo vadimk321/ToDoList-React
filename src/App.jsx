@@ -15,7 +15,8 @@ function App() {
     clearList,
     toggleAllTasks,
     removeCompletedTasks,
-    addPrefix
+    addPrefix,
+    removePrefix
   } = useTasks();
 
   const [editingId, setEditingId] = useState('');
@@ -40,8 +41,17 @@ function App() {
   function handlerAddPrefix(e){
     e.preventDefault();
 
-    const prefixText = e.target.elements.prefix.value; 
+    const prefixText = e.target.elements.addPrefix.value.toUpperCase(); 
     addPrefix(prefixText);
+
+    e.target.reset();
+  }
+
+  function handlerRemovePrefix(e){
+    e.preventDefault();
+
+    const prefixText = e.target.elements.delPref.value.toUpperCase();
+    removePrefix(prefixText)
 
     e.target.reset();
   }
@@ -67,8 +77,12 @@ function App() {
         <button onClick={removeCompletedTasks}>Удалить выполненное</button>
         <hr />
         <form onSubmit={handlerAddPrefix}>
-          <input name="prefix"/>
+          <input name="addPrefix"/>
           <button>Добавить префикс</button>
+        </form>
+        <form onSubmit={handlerRemovePrefix}>
+          <input name="delPref"/>
+          <button>Удалить префикс</button>
         </form>
         
         <hr />

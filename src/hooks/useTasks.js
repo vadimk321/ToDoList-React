@@ -34,7 +34,18 @@ function tasksReducer(state, action){
         return state.map(task => ({...task, text: task.text.includes(`[${action.payload}]`)
           ? task.text
           : `[${action.payload}] ${task.text}`}));
-          
+
+      case 'REMOVE_PREFIX':
+        const arr = state.map(task => task.text.split(']'));
+        const subArr = arr.map(prefix => {
+          return prefix.map(string => {
+            return string.split('')
+          }) 
+        })
+        console.log('arr = ')
+        console.log(arr)
+        console.log('subArr = ')
+        console.log(subArr)
       default:
         return state
     }
@@ -97,6 +108,12 @@ export function useTasks() {
     dispatch({type: 'ADD_PREFIX', payload: prefix})
   }
 
+  const removePrefix = (prefix) => {
+    if (!prefix.trim()) return;
+
+    dispatch({type: 'REMOVE_PREFIX', payload: prefix})
+  }
+
   return {
     tasks,
     addTask,
@@ -106,6 +123,7 @@ export function useTasks() {
     clearList,
     toggleAllTasks,
     removeCompletedTasks,
-    addPrefix
+    addPrefix,
+    removePrefix
   };
 }
