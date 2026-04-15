@@ -12,6 +12,29 @@
   flex: 0;
 }
 
+/* кнопка добавить префикс */
+.add-prefix-btn {
+  border: none;
+  background: transparent;
+  color: var(--accent);
+  cursor: pointer;
+  font-size: 13px;
+  padding: 4px 8px;
+  border-radius: 6px;
+  transition: 0.2s;
+  white-space: nowrap;
+}
+
+/* hover */
+.add-prefix-btn:hover {
+  background: var(--accent-bg);
+}
+
+/* активное состояние */
+.add-prefix-btn:active {
+  transform: scale(0.96);
+}
+
 /* заголовок */
 h1 {
   text-align: center;

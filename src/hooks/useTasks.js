@@ -53,7 +53,9 @@ function tasksReducer(state, action){
 
         return updated
         
-        
+      case 'ADD_PREFIX_TO_TASK':
+        // return console.log('ADD_PREFIX_TO_TASK');
+
       default:
         return state
     }
@@ -97,8 +99,8 @@ export function useTasks() {
 
   const saveEdit = (id, newText) => {
     dispatch({type: 'EDIT_TASK', payload: id, text: newText})
-    }
-    
+  }
+
   const clearList = () => {
     dispatch({type: 'CLEAR_TASKS'});
   };
@@ -123,6 +125,11 @@ export function useTasks() {
     dispatch({type: 'REMOVE_PREFIX', payload: prefix})
   }
 
+  const addPrefixToTask = (id, prefix) => {
+    console.log('EL PEPE')
+    // dispatch({type: 'ADD_PREFIX_TO_TASK', payload: {id: id, prefix: prefix}})
+  }
+
   return {
     tasks,
     addTask,
@@ -133,6 +140,7 @@ export function useTasks() {
     toggleAllTasks,
     removeCompletedTasks,
     addPrefix,
-    removePrefix
+    removePrefix,
+    addPrefixToTask
   };
 }

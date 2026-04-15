@@ -11,6 +11,7 @@ const TaskItem = React.memo(
           startEdit,
           saveEdit,
           cancelEdit,
+          addPrefixToTask
           } = props;
 
     const [localText, setLocalText] = useState(task.text);
@@ -30,6 +31,7 @@ const TaskItem = React.memo(
     const handleToggle = () => toggleTask(task.id);
     const handleDelete = () => deleteTask(task.id);
     const handleStartEdit = () => startEdit(task.id);
+    const handleAddPrefixToTask= () => addPrefixToTask(task.id); //
 
     console.log('render', task.id);
 
@@ -60,6 +62,10 @@ const TaskItem = React.memo(
             >{task.text}</span>)
           }
           <button onClick={handleDelete}>Удалить</button>
+          <button className="add-prefix-btn" 
+                  onClick={handleAddPrefixToTask}>
+                    Добавить префикс
+          </button>
       </li>
     )
   }

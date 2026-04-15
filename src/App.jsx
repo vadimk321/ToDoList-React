@@ -16,10 +16,12 @@ function App() {
     toggleAllTasks,
     removeCompletedTasks,
     addPrefix,
-    removePrefix
+    removePrefix,
+    addPrefixToTask
   } = useTasks();
 
   const [editingId, setEditingId] = useState('');
+  // const [editingPrefixId, setEditingPrefixId] = useState('');
   
   function handlerAddTask(e){
     e.preventDefault();
@@ -29,15 +31,19 @@ function App() {
 
     e.target.reset();
   }
-
+  
   const startEdit = (id) => setEditingId(id);
   const cancelEdit = () => setEditingId('');
+  //Пока ручками не трогаем эту гадость. Социальную дистанцию
+  const startEditPrefix = (id) => setEditingPrefixId(id);
+  const cancelEditPrefix = () => setEditingPrefixId('');
 
   const handleSaveEdit = (id, text) => {
     saveEdit(id, text);
     setEditingId('');
   }  
 
+  
   function handlerAddPrefix(e){
     e.preventDefault();
 
@@ -69,6 +75,7 @@ function App() {
             startEdit={startEdit}
             saveEdit={handleSaveEdit}
             cancelEdit={cancelEdit}
+            addPrefixToTask={addPrefixToTask}
             editingId={editingId}
           />
         <hr />
@@ -78,11 +85,11 @@ function App() {
         <hr />
         <form onSubmit={handlerAddPrefix}>
           <input name="addPrefix"/>
-          <button>Добавить префикс</button>
+          <button>Добавить массовый префикс</button>
         </form>
         <form onSubmit={handlerRemovePrefix}>
           <input name="delPref"/>
-          <button>Удалить префикс</button>
+          <button>Удалить массовый префикс</button>
         </form>
         
         <hr />
