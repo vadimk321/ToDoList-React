@@ -31,7 +31,15 @@ const TaskItem = React.memo(
     const handleToggle = () => toggleTask(task.id);
     const handleDelete = () => deleteTask(task.id);
     const handleStartEdit = () => startEdit(task.id);
-    const handleAddPrefixToTask= () => addPrefixToTask(task.id); //
+    // пытаемся прокинуть
+    const handleAddPrefixToTask = (e) => {
+      e.preventDefault();
+      const prefix = e.target.elements.addPrefToTask.value;
+      
+      addPrefixToTask(task.id, prefix);
+
+      e.target.reset();
+    } 
 
     console.log('render', task.id);
 
@@ -62,10 +70,10 @@ const TaskItem = React.memo(
             >{task.text}</span>)
           }
           <button onClick={handleDelete}>Удалить</button>
-          <button className="add-prefix-btn" 
-                  onClick={handleAddPrefixToTask}>
-                    Добавить префикс
-          </button>
+          <form onSubmit={handleAddPrefixToTask}>
+            <button className="add-prefix-btn">Добавить префикс</button>
+            <input name='addPrefToTask' />
+          </form>
       </li>
     )
   }

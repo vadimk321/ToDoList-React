@@ -1,7 +1,7 @@
 import {useState} from 'react';
 import {useTasks} from './hooks/useTasks.js';
 import TaskList from './TaskList.jsx';
-import './app.css';
+import './styles/app.css';
 
 function App() {
 
@@ -34,7 +34,7 @@ function App() {
   
   const startEdit = (id) => setEditingId(id);
   const cancelEdit = () => setEditingId('');
-  //Пока ручками не трогаем эту гадость. Социальную дистанцию
+  //Пока ручками не трогаем эту гадость. Социальную дистанцию соблюдаем
   const startEditPrefix = (id) => setEditingPrefixId(id);
   const cancelEditPrefix = () => setEditingPrefixId('');
 
@@ -61,6 +61,7 @@ function App() {
 
     e.target.reset();
   }
+
 
   return (
     <div>

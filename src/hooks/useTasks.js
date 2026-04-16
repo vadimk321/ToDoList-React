@@ -53,8 +53,15 @@ function tasksReducer(state, action){
 
         return updated
         
-      case 'ADD_PREFIX_TO_TASK':
-        // return console.log('ADD_PREFIX_TO_TASK');
+      case 'ADD_PREFIX_TO_TASK': {
+        const updated = state.map(task => {
+          if (task.prefixes.length >= 2) return task
+          
+          return task.id === action.payload.id ? {...task, prefixes: [...task.prefixes, action.payload.prefix]} : task})
+
+        return updated
+      }
+        
 
       default:
         return state
@@ -126,8 +133,8 @@ export function useTasks() {
   }
 
   const addPrefixToTask = (id, prefix) => {
-    console.log('EL PEPE')
-    // dispatch({type: 'ADD_PREFIX_TO_TASK', payload: {id: id, prefix: prefix}})
+
+    dispatch({type: 'ADD_PREFIX_TO_TASK', payload: {id: id, prefix: prefix.toUpperCase()}})
   }
 
   return {
