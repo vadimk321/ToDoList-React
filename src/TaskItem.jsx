@@ -11,14 +11,11 @@ const TaskItem = React.memo(
           startEdit,
           saveEdit,
           cancelEdit,
-          addPrefixToTask
+          addPrefixToTask,
+          delPrefixFromTask
           } = props;
 
     const [localText, setLocalText] = useState(task.text);
-    
-    useEffect(() => {
-
-    }, [])
     
     useEffect(() => {
       if  (isEditing) {
@@ -31,12 +28,22 @@ const TaskItem = React.memo(
     const handleToggle = () => toggleTask(task.id);
     const handleDelete = () => deleteTask(task.id);
     const handleStartEdit = () => startEdit(task.id);
-    // пытаемся прокинуть
-    const handleAddPrefixToTask = (e) => {
+    
+    const handleChangePrefixToTask = (e) => {
       e.preventDefault();
-      const prefix = e.target.elements.addPrefToTask.value;
+      const prefix = e.target.elements.changePrefToTask.value.trim();
+      if (!prefix) return;
+      const button = e.nativeEvent.submitter;
+
       
-      addPrefixToTask(task.id, prefix);
+      if (button.name === 'add'){
+        addPrefixToTask(task.id, prefix);
+      }
+      if (button.name === 'del'){
+        delPrefixFromTask(task.id, prefix)
+      }
+      
+      
 
       e.target.reset();
     } 
@@ -50,8 +57,9 @@ const TaskItem = React.memo(
           checked={task.done}
           onChange={handleToggle}
         />
+        <button onClick={handleDelete}>Удалить</button>
         {task.prefixes.map(prefix => (
-          <span key={prefix} className="prefix">[{prefix}]</span>
+          <span key={task.id + prefix} className="prefix">[{prefix}]</span>
         ))}
         {isEditing ? (
           <input
@@ -69,10 +77,11 @@ const TaskItem = React.memo(
             className={task.done ? 'complete' : null}
             >{task.text}</span>)
           }
-          <button onClick={handleDelete}>Удалить</button>
-          <form onSubmit={handleAddPrefixToTask}>
-            <button className="add-prefix-btn">Добавить префикс</button>
-            <input name='addPrefToTask' />
+          
+          <form onSubmit={handleChangePrefixToTask}>
+            <button className="add-prefix-btn" type='submit' name="add">Добавить префикс</button>
+            <button className="del-prefix-btn" type='submit' name="del">Удалить префикс</button>
+            <input name='changePrefToTask' />
           </form>
       </li>
     )

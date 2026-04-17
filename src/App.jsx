@@ -17,11 +17,11 @@ function App() {
     removeCompletedTasks,
     addPrefix,
     removePrefix,
-    addPrefixToTask
+    addPrefixToTask,
+    delPrefixFromTask
   } = useTasks();
 
   const [editingId, setEditingId] = useState('');
-  // const [editingPrefixId, setEditingPrefixId] = useState('');
   
   function handlerAddTask(e){
     e.preventDefault();
@@ -34,9 +34,7 @@ function App() {
   
   const startEdit = (id) => setEditingId(id);
   const cancelEdit = () => setEditingId('');
-  //Пока ручками не трогаем эту гадость. Социальную дистанцию соблюдаем
-  const startEditPrefix = (id) => setEditingPrefixId(id);
-  const cancelEditPrefix = () => setEditingPrefixId('');
+
 
   const handleSaveEdit = (id, text) => {
     saveEdit(id, text);
@@ -77,6 +75,7 @@ function App() {
             saveEdit={handleSaveEdit}
             cancelEdit={cancelEdit}
             addPrefixToTask={addPrefixToTask}
+            delPrefixFromTask={delPrefixFromTask}
             editingId={editingId}
           />
         <hr />

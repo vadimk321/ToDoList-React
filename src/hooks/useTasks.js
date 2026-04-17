@@ -54,12 +54,32 @@ function tasksReducer(state, action){
         return updated
         
       case 'ADD_PREFIX_TO_TASK': {
-        const updated = state.map(task => {
-          if (task.prefixes.length >= 2) return task
-          
-          return task.id === action.payload.id ? {...task, prefixes: [...task.prefixes, action.payload.prefix]} : task})
+        return state.map(task => {
+          if (task.id !== action.payload.id) return task;
 
-        return updated
+          if (task.prefixes.length >= 2) return task;
+          if (task.prefixes.includes(action.payload.prefix)) return task;
+
+          return {
+            ...task,
+            prefixes: [...task.prefixes, action.payload.prefix]
+            };
+        });
+      }
+
+      case 'DELETE_PREFIX_FROM_TASK': {
+        return state.map(task => {
+          if (task.id !== action.payload.id) return task;
+          if (task.prefixes.length === 0) return task;
+          if (!task.prefixes.includes(action.payload.prefix)) return task;
+
+          const updated = task.prefixes.filter(prefix => prefix !== action.payload.prefix);
+
+          return {
+            ...task,
+            prefixes: updated
+          }
+        })
       }
         
 
@@ -136,6 +156,10 @@ export function useTasks() {
 
     dispatch({type: 'ADD_PREFIX_TO_TASK', payload: {id: id, prefix: prefix.toUpperCase()}})
   }
+  const delPrefixFromTask = (id, prefix) => {
+    
+    dispatch({type: 'DELETE_PREFIX_FROM_TASK', payload: {id: id, prefix: prefix.toUpperCase()}})
+  }
 
   return {
     tasks,
@@ -148,6 +172,7 @@ export function useTasks() {
     removeCompletedTasks,
     addPrefix,
     removePrefix,
-    addPrefixToTask
+    addPrefixToTask,
+    delPrefixFromTask
   };
 }

@@ -13,6 +13,7 @@ function TaskList(props){
         cancelEdit,
         editingId,
         addPrefixToTask,
+        delPrefixFromTask
         } = props;
   
 
@@ -34,6 +35,7 @@ function TaskList(props){
           saveEdit={saveEdit}
           cancelEdit={cancelEdit}
           addPrefixToTask={addPrefixToTask}
+          delPrefixFromTask={delPrefixFromTask}
           />
         )
       )}
@@ -54,6 +56,7 @@ function TaskList(props){
           saveEdit={saveEdit}
           cancelEdit={cancelEdit}
           addPrefixToTask={addPrefixToTask}
+          delPrefixFromTask={delPrefixFromTask}
           />
       ))}
     </ul>
