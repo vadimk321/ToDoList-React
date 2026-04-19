@@ -11,14 +11,12 @@ const TaskItem = React.memo(
           startEdit,
           saveEdit,
           cancelEdit,
-          addPrefixToTask
+          addPrefixToTask,
+          delPrefixFromTask
           } = props;
 
     const [localText, setLocalText] = useState(task.text);
-    
-    useEffect(() => {
-
-    }, [])
+    const [prefixInput, setPrefixInput] = useState('');
     
     useEffect(() => {
       if  (isEditing) {
@@ -31,15 +29,7 @@ const TaskItem = React.memo(
     const handleToggle = () => toggleTask(task.id);
     const handleDelete = () => deleteTask(task.id);
     const handleStartEdit = () => startEdit(task.id);
-    // пытаемся прокинуть
-    const handleAddPrefixToTask = (e) => {
-      e.preventDefault();
-      const prefix = e.target.elements.addPrefToTask.value;
-      
-      addPrefixToTask(task.id, prefix);
-
-      e.target.reset();
-    } 
+    
 
     console.log('render', task.id);
 
@@ -50,8 +40,14 @@ const TaskItem = React.memo(
           checked={task.done}
           onChange={handleToggle}
         />
+        <button onClick={handleDelete}>Удалить</button>
         {task.prefixes.map(prefix => (
-          <span key={prefix} className="prefix">[{prefix}]</span>
+          <span 
+            key={task.id + prefix} 
+            className="prefix" 
+            onClick={() => delPrefixFromTask(task.id, prefix)}>
+            [{prefix}]
+          </span>
         ))}
         {isEditing ? (
           <input
@@ -69,11 +65,24 @@ const TaskItem = React.memo(
             className={task.done ? 'complete' : null}
             >{task.text}</span>)
           }
-          <button onClick={handleDelete}>Удалить</button>
-          <form onSubmit={handleAddPrefixToTask}>
-            <button className="add-prefix-btn">Добавить префикс</button>
-            <input name='addPrefToTask' />
-          </form>
+          <input 
+            value={prefixInput}
+            onChange={(e) => setPrefixInput(e.target.value)} 
+            placeholder='Добавить префикс'
+            disabled={task.prefixes.length >= 2}
+            onKeyDown={(e) => {
+              if (e.key === 'Enter') {
+                e.preventDefault();
+
+                const value = prefixInput.trim();
+                if (!value) return;
+
+                addPrefixToTask(task.id, value);
+                setPrefixInput('');
+              }
+            }}
+            />
+            
       </li>
     )
   }
