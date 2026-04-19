@@ -65,8 +65,9 @@ function App() {
   return (
     <div>
       <form onSubmit={handlerAddTask}>
-        <input name='text'/>
+        <input name='text'placeholder='Добавить задачу'/>
         <button>Добавить</button>
+        {selectedPrefix ? <h2 className="filter-prefix">Задачи с тегом {selectedPrefix}</h2> : null}
       </form>  
           <TaskList 
             tasks={tasks}

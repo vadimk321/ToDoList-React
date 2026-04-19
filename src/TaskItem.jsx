@@ -13,7 +13,8 @@ const TaskItem = React.memo(
           cancelEdit,
           addPrefixToTask,
           delPrefixFromTask, // Да!
-          setSelectedPrefix
+          setSelectedPrefix,
+          selectedPrefix
           } = props;
 
     const [localText, setLocalText] = useState(task.text);
@@ -45,11 +46,12 @@ const TaskItem = React.memo(
         {task.prefixes.map(prefix => (
           <span 
             key={task.id + prefix} 
-            className="prefix" 
-            onClick={() => setSelectedPrefix(prefix)}>
+            className={`prefix ${selectedPrefix === prefix ? 'active' : ''}`}
+            onClick={() => setSelectedPrefix(prev => prev === prefix ? null : prefix)}>
             [{prefix}]
           </span>
         ))}
+        
         {isEditing ? (
           <input
             value={localText}

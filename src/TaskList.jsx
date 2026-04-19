@@ -37,9 +37,13 @@ function TaskList(props){
 
  
 
-
   return (
+    
+
     <ul>
+      {activeTasks.length === 0 && doneTasks.length === 0 && (
+        <p>Ничего не найдено</p>
+      )}
       {activeTasks.length > 0 ? <h2>Задачи</h2> : null}
       {activeTasks.map(task => (
         <TaskItem 
@@ -54,6 +58,7 @@ function TaskList(props){
           addPrefixToTask={addPrefixToTask}
           delPrefixFromTask={delPrefixFromTask}
           setSelectedPrefix={setSelectedPrefix}
+          selectedPrefix={selectedPrefix}
           />
         )
       )}
@@ -76,6 +81,7 @@ function TaskList(props){
           addPrefixToTask={addPrefixToTask}
           delPrefixFromTask={delPrefixFromTask}
           setSelectedPrefix={setSelectedPrefix}
+          selectedPrefix={selectedPrefix}
           />
       ))}
     </ul>

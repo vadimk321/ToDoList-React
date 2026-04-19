@@ -8,8 +8,23 @@
   box-shadow: var(--shadow);
 }
 
+button {
+  padding: 3px;
+  cursor: pointer;
+  margin: 5px
+}
+
 .prefix {
   flex: 0;
+}
+
+.prefix.active {
+  background: #2c2f38;
+}
+
+.filter-prefix{
+  color: #99deda;
+  text-align: left;
 }
 
 /* кнопка добавить префикс */
