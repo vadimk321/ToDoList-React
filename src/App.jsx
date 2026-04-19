@@ -22,6 +22,7 @@ function App() {
   } = useTasks();
 
   const [editingId, setEditingId] = useState('');
+  const [selectedPrefix, setSelectedPrefix] = useState(null);
   
   function handlerAddTask(e){
     e.preventDefault();
@@ -76,6 +77,8 @@ function App() {
             cancelEdit={cancelEdit}
             addPrefixToTask={addPrefixToTask}
             delPrefixFromTask={delPrefixFromTask}
+            selectedPrefix={selectedPrefix}
+            setSelectedPrefix={setSelectedPrefix}
             editingId={editingId}
           />
         <hr />
@@ -91,6 +94,9 @@ function App() {
           <input name="delPref"/>
           <button>Удалить массовый префикс</button>
         </form>
+        <button onClick={() => setSelectedPrefix(null)}>
+          Сбросить фильтр
+        </button>
         
         <hr />
     </div>

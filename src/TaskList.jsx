@@ -13,12 +13,29 @@ function TaskList(props){
         cancelEdit,
         editingId,
         addPrefixToTask,
-        delPrefixFromTask
+        delPrefixFromTask,
+        selectedPrefix,
+        setSelectedPrefix
         } = props;
   
 
-  const activeTasks = useMemo(() => tasks.filter(task => !task.done), [tasks])
-  const doneTasks = useMemo(() => tasks.filter(task => task.done), [tasks]);
+   const filteredTasks = useMemo(() => {
+    if (!selectedPrefix) return tasks;
+
+    return tasks.filter(task => task.prefixes.includes(selectedPrefix))
+  },  [tasks, selectedPrefix])
+
+  const activeTasks = useMemo (
+    () => filteredTasks.filter(task => !task.done),
+    [filteredTasks]
+  );
+
+  const doneTasks = useMemo(
+    () => filteredTasks.filter(task => task.done),
+    [filteredTasks]
+  );
+
+ 
 
 
   return (
@@ -36,6 +53,7 @@ function TaskList(props){
           cancelEdit={cancelEdit}
           addPrefixToTask={addPrefixToTask}
           delPrefixFromTask={delPrefixFromTask}
+          setSelectedPrefix={setSelectedPrefix}
           />
         )
       )}
@@ -57,6 +75,7 @@ function TaskList(props){
           cancelEdit={cancelEdit}
           addPrefixToTask={addPrefixToTask}
           delPrefixFromTask={delPrefixFromTask}
+          setSelectedPrefix={setSelectedPrefix}
           />
       ))}
     </ul>
