@@ -22,8 +22,10 @@ function App() {
   } = useTasks();
 
   const [editingId, setEditingId] = useState('');
-  const [selectedPrefix, setSelectedPrefix] = useState(null);
-  const [statusFilter, setStatusFilter] = useState('all');
+  const [filters, setFilters] = useState({
+    prefix: null,
+    status: 'all'
+  })
   
   function handlerAddTask(e){
     e.preventDefault();
@@ -65,10 +67,32 @@ function App() {
 
   return (
     <div>
-      <button  className={`tabs-filters ${statusFilter === 'all' ? 'active' : ''}`} onClick={() => setStatusFilter('all') }>Все</button>
-      <button className={`tabs-filters ${statusFilter === 'active' ? 'active' : ''}`} onClick={() => setStatusFilter('active') }>Активные</button>
-      <button  className={`tabs-filters ${statusFilter === 'done' ? 'active' : ''}`} onClick={() => setStatusFilter('done') }>Выполненные</button>
-      
+      <button  
+        className={`tabs-filters ${filters.status === 'all' ? 'active' : ''}`} 
+        onClick={() => setFilters(prev => ({
+          ...prev,
+          status: 'all' 
+        })) }>
+        Все
+      </button>
+      <button 
+        className={`tabs-filters ${filters.status === 'active' ? 'active' : ''}`} 
+        onClick={() => setFilters(prev => ({
+          ...prev,
+          status: 'active'
+        })) }>
+        Активные
+      </button>
+      <button  
+        className={`tabs-filters ${filters.status === 'done' ? 'active' : ''}`} 
+        onClick={() => setFilters(prev => ({
+          ...prev,
+          status: 'done'
+        })) }>
+        Выполненные
+      </button>
+      {filters.prefix ? <hr /> : null}
+      {filters.prefix ? <h2 className="filter-prefix">Задачи с тегом {filters.prefix}</h2> : null}
           <TaskList 
             tasks={tasks}
             toggleTask={toggleTask}
@@ -78,15 +102,15 @@ function App() {
             cancelEdit={cancelEdit}
             addPrefixToTask={addPrefixToTask}
             delPrefixFromTask={delPrefixFromTask}
-            selectedPrefix={selectedPrefix}
-            setSelectedPrefix={setSelectedPrefix}
             editingId={editingId}
-            statusFilter={statusFilter}
+            filters={filters}
+            setFilters={setFilters}
+            
           />
         <form onSubmit={handlerAddTask}>
           <input name='text'placeholder='Добавить задачу'/>
           <button>Добавить</button>
-            {selectedPrefix ? <h2 className="filter-prefix">Задачи с тегом {selectedPrefix}</h2> : null}
+            
         </form>  
         <hr />
         <button onClick={clearList}>Сбросить все задачи</button>
@@ -101,7 +125,10 @@ function App() {
           <input name="delPref"/>
           <button>Удалить массовый префикс</button>
         </form>
-        <button onClick={() => setSelectedPrefix(null)}>
+        <button onClick={() => setFilters(prev => ({
+          ...prev,
+          prefix: null
+        }))}>
           Сбросить фильтр
         </button>
         

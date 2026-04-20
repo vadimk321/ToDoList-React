@@ -13,10 +13,9 @@ function TaskList(props){
         cancelEdit,
         editingId,
         addPrefixToTask,
-        delPrefixFromTask,
-        selectedPrefix,
-        setSelectedPrefix,
-        statusFilter,
+        delPrefixFromTask, // 
+        filters,
+        setFilters
         } = props;
   
 
@@ -24,20 +23,19 @@ function TaskList(props){
     let result = tasks;
 
     // фильтр по префиксу
-    if (selectedPrefix) {
-      result = result.filter(task => task.prefixes.includes(selectedPrefix))
+    if (filters.prefix) {
+      result = result.filter(task => task.prefixes.includes(filters.prefix))
     };
     // фильтр по статусу
-    if (statusFilter === 'active') {
+    if (filters.status === 'active') {
       result = result.filter(task => !task.done)
     };
-    if (statusFilter === 'done') {
+    if (filters.status === 'done') {
       result = result.filter(task => task.done);
     }
 
     return result
-  }, [tasks, selectedPrefix, statusFilter]);
-
+  }, [tasks, filters.status, filters.prefix]);
 
 
   return (
@@ -60,8 +58,8 @@ function TaskList(props){
           cancelEdit={cancelEdit}
           addPrefixToTask={addPrefixToTask}
           delPrefixFromTask={delPrefixFromTask}
-          setSelectedPrefix={setSelectedPrefix}
-          selectedPrefix={selectedPrefix}
+          filters={filters}
+          setFilters={setFilters}
           />
         )
       )}

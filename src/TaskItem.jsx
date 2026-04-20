@@ -13,8 +13,8 @@ const TaskItem = React.memo(
           cancelEdit,
           addPrefixToTask,
           delPrefixFromTask, // Пока оставим!
-          setSelectedPrefix,
-          selectedPrefix
+          filters,
+          setFilters
           } = props;
 
     const [localText, setLocalText] = useState(task.text);
@@ -43,11 +43,14 @@ const TaskItem = React.memo(
           onChange={handleToggle}
         />
         <button onClick={handleDelete}>Удалить</button>
-        {task.prefixes.map(prefix => (
+        {(task.prefixes || []).map(prefix => (
           <span 
-            key={task.id + prefix} 
-            className={`prefix ${selectedPrefix === prefix ? 'active' : ''}`}
-            onClick={() => setSelectedPrefix(prev => prev === prefix ? null : prefix)}>
+            key={`${task.id}_${prefix}`}
+            className={`prefix ${filters.prefix === prefix ? 'active' : ''}`}
+            onClick={() => setFilters(prev => ({
+              ...prev,
+              prefix: prev.prefix === prefix ? null : prefix
+            }))}>
             [{prefix}]
           </span>
         ))}
@@ -71,7 +74,11 @@ const TaskItem = React.memo(
           <input 
             value={prefixInput}
             onChange={(e) => setPrefixInput(e.target.value)} 
-            placeholder='Добавить префикс'
+            placeholder={
+              task.prefixes.length >= 2 
+              ? 'Лимит префиксов'
+              : 'Добавить префикс'
+            }
             disabled={task.prefixes.length >= 2}
             onKeyDown={(e) => {
               if (e.key === 'Enter') {
