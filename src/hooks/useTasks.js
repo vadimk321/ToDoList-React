@@ -125,7 +125,7 @@ export function useTasks() {
   }
 
   const saveEdit = (id, newText) => {
-    dispatch({type: 'EDIT_TASK', payload: id, text: newText})
+    dispatch({type: 'EDIT_TASK', payload: id, text: newText});
   }
 
   const clearList = () => {

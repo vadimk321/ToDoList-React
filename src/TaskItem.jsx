@@ -12,7 +12,7 @@ const TaskItem = React.memo(
           saveEdit,
           cancelEdit,
           addPrefixToTask,
-          delPrefixFromTask, // Да!
+          delPrefixFromTask, // Пока оставим!
           setSelectedPrefix,
           selectedPrefix
           } = props;

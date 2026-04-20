@@ -23,6 +23,7 @@ function App() {
 
   const [editingId, setEditingId] = useState('');
   const [selectedPrefix, setSelectedPrefix] = useState(null);
+  const [statusFilter, setStatusFilter] = useState('all');
   
   function handlerAddTask(e){
     e.preventDefault();
@@ -64,11 +65,10 @@ function App() {
 
   return (
     <div>
-      <form onSubmit={handlerAddTask}>
-        <input name='text'placeholder='Добавить задачу'/>
-        <button>Добавить</button>
-        {selectedPrefix ? <h2 className="filter-prefix">Задачи с тегом {selectedPrefix}</h2> : null}
-      </form>  
+      <button  className={`tabs-filters ${statusFilter === 'all' ? 'active' : ''}`} onClick={() => setStatusFilter('all') }>Все</button>
+      <button className={`tabs-filters ${statusFilter === 'active' ? 'active' : ''}`} onClick={() => setStatusFilter('active') }>Активные</button>
+      <button  className={`tabs-filters ${statusFilter === 'done' ? 'active' : ''}`} onClick={() => setStatusFilter('done') }>Выполненные</button>
+      
           <TaskList 
             tasks={tasks}
             toggleTask={toggleTask}
@@ -81,7 +81,13 @@ function App() {
             selectedPrefix={selectedPrefix}
             setSelectedPrefix={setSelectedPrefix}
             editingId={editingId}
+            statusFilter={statusFilter}
           />
+        <form onSubmit={handlerAddTask}>
+          <input name='text'placeholder='Добавить задачу'/>
+          <button>Добавить</button>
+            {selectedPrefix ? <h2 className="filter-prefix">Задачи с тегом {selectedPrefix}</h2> : null}
+        </form>  
         <hr />
         <button onClick={clearList}>Сбросить все задачи</button>
         <button onClick={toggleAllTasks}>Переключить все задачи</button>

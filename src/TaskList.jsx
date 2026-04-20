@@ -15,37 +15,40 @@ function TaskList(props){
         addPrefixToTask,
         delPrefixFromTask,
         selectedPrefix,
-        setSelectedPrefix
+        setSelectedPrefix,
+        statusFilter,
         } = props;
   
 
-   const filteredTasks = useMemo(() => {
-    if (!selectedPrefix) return tasks;
+  const filteredTasks = useMemo(() => {
+    let result = tasks;
 
-    return tasks.filter(task => task.prefixes.includes(selectedPrefix))
-  },  [tasks, selectedPrefix])
+    // фильтр по префиксу
+    if (selectedPrefix) {
+      result = result.filter(task => task.prefixes.includes(selectedPrefix))
+    };
+    // фильтр по статусу
+    if (statusFilter === 'active') {
+      result = result.filter(task => !task.done)
+    };
+    if (statusFilter === 'done') {
+      result = result.filter(task => task.done);
+    }
 
-  const activeTasks = useMemo (
-    () => filteredTasks.filter(task => !task.done),
-    [filteredTasks]
-  );
+    return result
+  }, [tasks, selectedPrefix, statusFilter]);
 
-  const doneTasks = useMemo(
-    () => filteredTasks.filter(task => task.done),
-    [filteredTasks]
-  );
 
- 
 
   return (
     
 
     <ul>
-      {activeTasks.length === 0 && doneTasks.length === 0 && (
+      {filteredTasks.length === 0 && (
         <p>Ничего не найдено</p>
       )}
-      {activeTasks.length > 0 ? <h2>Задачи</h2> : null}
-      {activeTasks.map(task => (
+      {filteredTasks.length > 0 ? <h2>Задачи</h2> : null}
+      {filteredTasks.map(task => (
         <TaskItem 
           key={task.id}
           task={task}
@@ -62,28 +65,6 @@ function TaskList(props){
           />
         )
       )}
-      {doneTasks.length > 0 ? (
-        <>
-          <hr />
-          <h2>Выполнено</h2>
-        </>
-      ) : null}
-      {doneTasks.map(task => (
-         <TaskItem 
-          key={task.id}
-          task={task}
-          isEditing={editingId === task.id}
-          toggleTask={toggleTask}
-          deleteTask={deleteTask}
-          startEdit={startEdit}
-          saveEdit={saveEdit}
-          cancelEdit={cancelEdit}
-          addPrefixToTask={addPrefixToTask}
-          delPrefixFromTask={delPrefixFromTask}
-          setSelectedPrefix={setSelectedPrefix}
-          selectedPrefix={selectedPrefix}
-          />
-      ))}
     </ul>
   );
 }
