@@ -24,8 +24,10 @@ function App() {
   const [editingId, setEditingId] = useState('');
   const [filters, setFilters] = useState({
     prefix: null,
-    status: 'all'
-  })
+    status: 'all',
+    search: ''
+  });
+
   
   function handlerAddTask(e){
     e.preventDefault();
@@ -67,6 +69,15 @@ function App() {
 
   return (
     <div>
+      <input 
+        type="text" 
+        value={filters.search}  
+        placeholder='Найти задачу'
+        onChange= {(e) => setFilters(prev => ({
+          ...prev, 
+          search: e.target.value
+        }))
+        }/>
       <button  
         className={`tabs-filters ${filters.status === 'all' ? 'active' : ''}`} 
         onClick={() => setFilters(prev => ({
@@ -105,7 +116,6 @@ function App() {
             editingId={editingId}
             filters={filters}
             setFilters={setFilters}
-            
           />
         <form onSubmit={handlerAddTask}>
           <input name='text'placeholder='Добавить задачу'/>

@@ -15,7 +15,7 @@ function TaskList(props){
         addPrefixToTask,
         delPrefixFromTask, // 
         filters,
-        setFilters
+        setFilters,
         } = props;
   
   const handleTogglePrefix = useCallback((prefix) => {
@@ -30,20 +30,26 @@ function TaskList(props){
   const filteredTasks = useMemo(() => {
     let result = tasks;
 
-    // фильтр по префиксу
+    
+    // Фильтр по префиксу
     if (filters.prefix) {
-      result = result.filter(task => task.prefixes.includes(filters.prefix))
+      result = result.filter(task => task.prefixes.includes(filters.prefix));
     };
-    // фильтр по статусу
+    // Фильтр по статусу
     if (filters.status === 'active') {
-      result = result.filter(task => !task.done)
+      result = result.filter(task => !task.done);
     };
     if (filters.status === 'done') {
       result = result.filter(task => task.done);
     }
+    // Фильтр по поиску
+    if (filters.search) {
+      result = result.filter(task => task.text.toLowerCase().includes(filters.search.toLowerCase()));
+  }
+
 
     return result
-  }, [tasks, filters.status, filters.prefix]);
+  }, [tasks, filters.status, filters.prefix, filters.search]);
 
 
   return (
