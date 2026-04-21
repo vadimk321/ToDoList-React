@@ -44,7 +44,7 @@ function TaskList(props){
     }
     // Фильтр по поиску
     if (filters.search) {
-      result = result.filter(task => task.text.toLowerCase().includes(filters.search.toLowerCase()));
+      result = result.filter(task => task.text.toLowerCase().includes(filters.search.toLowerCase().trim()));
   }
 
 
@@ -56,6 +56,7 @@ function TaskList(props){
     
 
     <ul>
+      {filteredTasks.length > 0 ? <h4>Задач: {filteredTasks.length}</h4> : null}
       {filteredTasks.length === 0 && (
         <p>Ничего не найдено</p>
       )}

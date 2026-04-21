@@ -69,15 +69,24 @@ function App() {
 
   return (
     <div>
-      <input 
+      <div className="find-task-wrapper">
+        <input 
+        className="find-task-input"
         type="text" 
         value={filters.search}  
-        placeholder='Найти задачу'
+        placeholder='Найти задачу...'
         onChange= {(e) => setFilters(prev => ({
           ...prev, 
           search: e.target.value
         }))
         }/>
+        <button 
+          className="find-task-clear-btn"
+          onClick={() => setFilters(prev => ({
+            ...prev,
+            search: ''
+          }))}>❌</button>
+      </div>
       <button  
         className={`tabs-filters ${filters.status === 'all' ? 'active' : ''}`} 
         onClick={() => setFilters(prev => ({
