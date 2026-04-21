@@ -1,4 +1,4 @@
-import { useMemo } from 'react';
+import { useMemo, useCallback} from 'react';
 import TaskItem from './TaskItem.jsx'
 
 
@@ -18,6 +18,14 @@ function TaskList(props){
         setFilters
         } = props;
   
+  const handleTogglePrefix = useCallback((prefix) => {
+      setFilters(prev => ({
+        ...prev,
+        prefix: prev.prefix === prefix ? null : prefix
+      }))
+    }, []);
+
+
 
   const filteredTasks = useMemo(() => {
     let result = tasks;
@@ -58,8 +66,8 @@ function TaskList(props){
           cancelEdit={cancelEdit}
           addPrefixToTask={addPrefixToTask}
           delPrefixFromTask={delPrefixFromTask}
-          filters={filters}
-          setFilters={setFilters}
+          onTogglePrefix={handleTogglePrefix}
+          isActivePrefix={filters.prefix}
           />
         )
       )}

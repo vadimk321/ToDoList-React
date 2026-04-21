@@ -1,4 +1,5 @@
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useState} from 'react';
+import Prefix from './prefix';
 
 const TaskItem = React.memo(
   function TaskItem(props){
@@ -13,8 +14,8 @@ const TaskItem = React.memo(
           cancelEdit,
           addPrefixToTask,
           delPrefixFromTask, // Пока оставим!
-          filters,
-          setFilters
+          onTogglePrefix,
+          isActivePrefix,
           } = props;
 
     const [localText, setLocalText] = useState(task.text);
@@ -31,6 +32,8 @@ const TaskItem = React.memo(
     const handleToggle = () => toggleTask(task.id);
     const handleDelete = () => deleteTask(task.id);
     const handleStartEdit = () => startEdit(task.id);
+
+    
     
 
     console.log('render', task.id);
@@ -44,15 +47,12 @@ const TaskItem = React.memo(
         />
         <button onClick={handleDelete}>Удалить</button>
         {(task.prefixes || []).map(prefix => (
-          <span 
+          <Prefix
             key={`${task.id}_${prefix}`}
-            className={`prefix ${filters.prefix === prefix ? 'active' : ''}`}
-            onClick={() => setFilters(prev => ({
-              ...prev,
-              prefix: prev.prefix === prefix ? null : prefix
-            }))}>
-            [{prefix}]
-          </span>
+            prefix={prefix}
+            isActive={isActivePrefix === prefix}
+            onToggle={onTogglePrefix}
+          />
         ))}
         
         {isEditing ? (
