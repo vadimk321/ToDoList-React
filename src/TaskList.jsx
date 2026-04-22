@@ -28,7 +28,7 @@ function TaskList(props){
 
 
   const filteredTasks = useMemo(() => {
-    let result = tasks;
+    let result = [...tasks];
 
     
     // Фильтр по префиксу
@@ -45,11 +45,27 @@ function TaskList(props){
     // Фильтр по поиску
     if (filters.search) {
       result = result.filter(task => task.text.toLowerCase().includes(filters.search.toLowerCase().trim()));
-  }
+    }
 
+    // Сортировка
+    if (filters.sort === 'az') {
+      result.sort((a, b) => a.text.localeCompare(b.text));
+    }
+
+    if (filters.sort === 'za') {
+      result.sort((a, b) => b.text.localeCompare(a.text));
+    }
+
+    if (filters.sort === 'newest') {
+      result.sort((a, b) => b.id - a.id);
+    }
+
+    if (filters.sort === 'oldest') {
+      result.sort((a, b) => a.id - b.id);
+    }
 
     return result
-  }, [tasks, filters.status, filters.prefix, filters.search]);
+  }, [tasks, filters.status, filters.prefix, filters.search, filters.sort]);
 
 
   return (

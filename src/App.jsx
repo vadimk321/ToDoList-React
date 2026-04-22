@@ -25,7 +25,8 @@ function App() {
   const [filters, setFilters] = useState({
     prefix: null,
     status: 'all',
-    search: ''
+    search: '',
+    sort: 'newest'
   });
 
   
@@ -87,6 +88,19 @@ function App() {
             search: ''
           }))}>❌</button>
       </div>
+      <select 
+        value={filters.sort}
+        onChange={(e) => {
+          setFilters(prev => ({
+            ...prev,
+            sort: e.target.value
+          }))
+        }}>
+        <option value="newest">Сначала новые</option>
+        <option value="oldest">Сначала старые</option>
+        <option value="az">По алфавиту (A-Z)</option>
+        <option value="za">По алфавиту (Z-A)</option>
+      </select>
       <button  
         className={`tabs-filters ${filters.status === 'all' ? 'active' : ''}`} 
         onClick={() => setFilters(prev => ({
@@ -111,6 +125,7 @@ function App() {
         })) }>
         Выполненные
       </button>
+      
       {filters.prefix ? <hr /> : null}
       {filters.prefix ? <h2 className="filter-prefix">Задачи с тегом {filters.prefix}</h2> : null}
           <TaskList 
