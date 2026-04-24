@@ -1,5 +1,6 @@
 import {useState} from 'react';
 import {useTasks} from './hooks/useTasks.js';
+import {useFilters} from './hooks/useFilters.js'
 import TaskList from './TaskList.jsx';
 import './styles/app.css';
 
@@ -21,15 +22,15 @@ function App() {
     delPrefixFromTask
   } = useTasks();
 
-  const [editingId, setEditingId] = useState('');
-  const [filters, setFilters] = useState({
-    prefix: null,
-    status: 'all',
-    search: '',
-    sort: 'newest'
-  });
+  const {
+    filters,
+    setFilters,
+    filteredTasks
+  } = useFilters(tasks);
 
+  const [editingId, setEditingId] = useState('');
   
+
   function handlerAddTask(e){
     e.preventDefault();
 
@@ -140,6 +141,7 @@ function App() {
             editingId={editingId}
             filters={filters}
             setFilters={setFilters}
+            filteredTasks={filteredTasks}
           />
         <form onSubmit={handlerAddTask}>
           <input name='text'placeholder='Добавить задачу'/>
