@@ -1,15 +1,36 @@
-import { useMemo, useState } from "react";
+import { useMemo, useState, useEffect } from "react";
 import {useTasks} from "./useTasks.js"
 
 export function useFilters(tasks){
 
 
-  const [filters, setFilters] = useState({
-    prefix: null,
-    status: 'all',
-    search: '',
-    sort: 'newest'
-  });
+  const [filters, setFilters] = useState(() => {
+    const saved = localStorage.getItem('filters');
+    try {
+      const saved = localStorage.getItem('filters');
+
+      if (saved) {
+        return JSON.parse(saved)
+      }
+    }
+
+    catch(e){
+       console.error('Ошибка чтения filters', e);
+    }
+
+    
+    return {
+      prefix: null,
+      status: 'all',
+      search: '',
+      sort: 'newest'
+      }
+  })
+
+  useEffect(() => {
+    const {search, ...rest} = filters;
+    localStorage.setItem('filters', JSON.stringify(rest));
+  }, [filters]);
 
   const filteredTasks = useMemo(() => {
     let result = [...tasks];
@@ -41,15 +62,15 @@ export function useFilters(tasks){
     }
 
     if (filters.sort === 'newest') {
-      result.sort((a, b) => b.id - a.id);
+      result.sort((a, b) => b.id.localeCompare(a.id));
     }
 
     if (filters.sort === 'oldest') {
-      result.sort((a, b) => a.id - b.id);
+      result.sort((a, b) => a.id.localeCompare(b.id));
     }
 
     return result
-  }, [tasks, filters.status, filters.prefix, filters.search, filters.sort])
+  }, [tasks, filters])
 
 
   return {
