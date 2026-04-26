@@ -1,11 +1,9 @@
 import { useMemo, useState, useEffect } from "react";
-import {useTasks} from "./useTasks.js"
 
 export function useFilters(tasks){
 
 
   const [filters, setFilters] = useState(() => {
-    const saved = localStorage.getItem('filters');
     try {
       const saved = localStorage.getItem('filters');
 

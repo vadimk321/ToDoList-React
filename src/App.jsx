@@ -1,4 +1,4 @@
-import {useState} from 'react';
+import {useState, useEffect} from 'react';
 import {useTasks} from './hooks/useTasks.js';
 import {useFilters} from './hooks/useFilters.js'
 import TaskList from './TaskList.jsx';
@@ -6,7 +6,7 @@ import './styles/app.css';
 
 function App() {
 
-  
+  // Переменные -----------------------------------------
   const {
     tasks,
     addTask,
@@ -29,7 +29,21 @@ function App() {
   } = useFilters(tasks);
 
   const [editingId, setEditingId] = useState('');
-  
+  const [searchInput, setSearchInput] = useState('');
+
+
+  // Обработчики -----------------------------------------
+
+  useEffect(() => {
+    const timeout = setTimeout(() => {
+      setFilters(prev => ({
+        ...prev,
+        search: searchInput
+      }))
+    }, 300);
+
+    return () => clearTimeout(timeout);
+  }, [searchInput])
 
   function handlerAddTask(e){
     e.preventDefault();
@@ -68,26 +82,25 @@ function App() {
     e.target.reset();
   }
 
-
+  // return  -----------------------------------------
   return (
     <div>
       <div className="find-task-wrapper">
         <input 
         className="find-task-input"
         type="text" 
-        value={filters.search}  
+        value={searchInput}  
         placeholder='Найти задачу...'
-        onChange= {(e) => setFilters(prev => ({
-          ...prev, 
-          search: e.target.value
-        }))
+        onChange= {(e) => setSearchInput(prev => (e.target.value))
         }/>
         <button 
           className="find-task-clear-btn"
-          onClick={() => setFilters(prev => ({
-            ...prev,
-            search: ''
-          }))}>❌</button>
+          onClick={() =>{ 
+            setSearchInput('');
+            setFilters(prev => ({
+              ...prev,
+              search: ''
+            }))}}>❌</button>
       </div>
       <select 
         value={filters.sort}

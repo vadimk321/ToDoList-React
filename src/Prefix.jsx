@@ -1,4 +1,5 @@
 import React from 'react';
+import {useCallback} from 'react';
 
 
 const Prefix = React.memo(
@@ -9,12 +10,16 @@ const Prefix = React.memo(
         isActive, 
         onToggle 
       } = props
+
+  const handleClick = useCallback(() => {
+    onToggle(prefix)
+  }, [prefix, onToggle])
   console.log('render prefix', prefix);
 
   return (
     <span
       className={`prefix ${isActive ? 'active' : ''}`}
-      onClick={() => onToggle(prefix)}
+      onClick={() => handleClick}
     >
       [{prefix}]
     </span>

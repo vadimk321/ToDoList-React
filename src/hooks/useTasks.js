@@ -1,4 +1,4 @@
-import { useReducer, useEffect } from "react";
+import { useReducer, useEffect, useCallback } from "react";
 
 
 
@@ -116,17 +116,17 @@ export function useTasks() {
     })
   }
 
-  const deleteTask = (id) => {
+  const deleteTask = useCallback((id) => {
     dispatch({type: 'DELETE_TASK', payload: id});
-  };
+  }, []);
 
-  const toggleTask = (id) => {
+  const toggleTask = useCallback((id) => {
     dispatch({type: 'TOGGLE_TASK', payload: id});
-  }
+  }, []);
 
-  const saveEdit = (id, newText) => {
+  const saveEdit = useCallback((id, newText) => {
     dispatch({type: 'EDIT_TASK', payload: id, text: newText});
-  }
+  }, [])
 
   const clearList = () => {
     dispatch({type: 'CLEAR_TASKS'});
@@ -152,14 +152,14 @@ export function useTasks() {
     dispatch({type: 'REMOVE_PREFIX', payload: prefix})
   }
 
-  const addPrefixToTask = (id, prefix) => {
+  const addPrefixToTask = useCallback((id, prefix) => {
 
     dispatch({type: 'ADD_PREFIX_TO_TASK', payload: {id: id, prefix: prefix.toUpperCase()}})
-  }
-  const delPrefixFromTask = (id, prefix) => {
+  }, [])
+  const delPrefixFromTask = useCallback((id, prefix) => {
     
     dispatch({type: 'DELETE_PREFIX_FROM_TASK', payload: {id: id, prefix: prefix.toUpperCase()}})
-  }
+  }, [])
 
   return {
     tasks,
